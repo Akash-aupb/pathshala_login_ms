@@ -1,0 +1,48 @@
+package com.ps.pathshala.service;
+
+import com.ps.pathshala.mapper.SchoolRowMapper;
+import com.ps.pathshala.model.School;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.stereotype.Component;
+
+@Component
+public class SchoolServiceImp implements SchoolService{
+
+    @Autowired
+    private JdbcTemplate jdbcTemplate;
+
+    @Value("${db.select}")
+    private String selectSql;
+
+    @Value("${db.insert}")
+    private String insertSql;
+
+    School getSchoolData(School school){
+        School sc=new School();
+        sc.setId(school.getId());
+        sc.setSchool_name(school.getSchool_name());
+        sc.setAddress(school.getAddress());
+        sc.setEmail_id(school.getEmail_id());
+        sc.setPassword(school.getPassword());
+
+        return sc;
+    }
+
+    @Override
+    public int insertSchoolData(School school) {
+
+        int result = jdbcTemplate.update(insertSql,school.getId(),school.getSchool_name(),school.getAddress(),school.getEmail_id(),school.getPassword());
+        return result;
+    }
+
+
+
+    @Override
+    public School getSchoolData(int id) {
+
+       School school = jdbcTemplate.queryForObject(selectSql,new SchoolRowMapper(),2);
+        return school;
+    }
+}

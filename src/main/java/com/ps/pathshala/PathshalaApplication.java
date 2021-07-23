@@ -15,10 +15,5 @@ public class PathshalaApplication  {
 		SpringApplication.run(PathshalaApplication.class, args);
 	}
 
-//	@Override
-//	public void run(String... args) throws Exception {
-//		String sql = "select school_name from SCHOOL_MAP;";
-//		String result = jdbcTemplate.queryForObject(sql,String.class);
-//		System.out.println(result);
-//	}
+
 }

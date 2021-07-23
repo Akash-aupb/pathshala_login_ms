@@ -10,13 +10,17 @@ public class School {
 
    private  String address;
 
-   private  String email_id;
 
-    public School(Integer id, String school_name, String address, String email_id) {
+    private  String email_id;
+
+   private String password;
+
+    public School(Integer id, String school_name, String address, String email_id,String password) {
         this.id = id;
         this.school_name = school_name;
         this.address = address;
         this.email_id = email_id;
+        this.password = password;
     }
 
     public Integer getId() {
@@ -53,6 +57,15 @@ public class School {
 
     public School() {
     }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
 
     @Override
     public String toString() {

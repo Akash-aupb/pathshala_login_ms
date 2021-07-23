@@ -3,29 +3,34 @@ package com.ps.pathshala.controller;
 
 import com.ps.pathshala.mapper.SchoolRowMapper;
 import com.ps.pathshala.model.School;
+import com.ps.pathshala.service.SchoolService;
+import com.ps.pathshala.service.SchoolServiceImp;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.ComponentScan;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.jdbc.core.JdbcTemplate;
 
 
 @RestController
+@ComponentScan(basePackages = {"com.ps.pathshala.service.SchoolService"})
 @RequestMapping("/login")
 public class LoginController {
 
     @Autowired
-    private JdbcTemplate jdbcTemplate;
+    SchoolService schoolService;
 
 
     @GetMapping("/get")
     public School hello(){
 
-        String sql = "select id,school_name,email_id,address from SCHOOL_MAP;";
-        School result = jdbcTemplate.queryForObject(sql, new SchoolRowMapper());
-        //(result);
-        return result;
+        School school = schoolService.getSchoolData(1);
+        return school;
+    }
+
+    @PostMapping(value="/insert",consumes = "application/json", produces = "application/json")
+    public int inertData(@RequestBody School school){
+       return  schoolService.insertSchoolData(school);
     }
 
 

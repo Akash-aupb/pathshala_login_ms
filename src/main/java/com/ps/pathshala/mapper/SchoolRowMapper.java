@@ -16,6 +16,7 @@ public class SchoolRowMapper implements RowMapper<School> {
         school.setAddress(rs.getString("address"));
         school.setEmail_id(rs.getString("email_id"));
         school.setId(rs.getInt("id"));
+        school.setPassword(rs.getString("password"));
         return school;
     }
 }
