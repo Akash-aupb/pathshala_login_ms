@@ -26,10 +26,10 @@ public class LoginController {
     SendEmailService sendEmailService;
 
 
-    @GetMapping("/get")
-    public School hello(){
+    @GetMapping("/get/{id}")
+    public School getSchool(@PathVariable("id") int id) {
 
-        School school = schoolService.getSchoolData(1);
+        School school = schoolService.getSchoolData(id);
         return school;
     }
 
@@ -40,16 +40,16 @@ public class LoginController {
     }
 
 
-    @PostMapping(value="/signup",consumes = "application/json", produces = "application/json")
-    public int inertData(@RequestBody School school){
+    @PostMapping(value = "/signup", consumes = "application/json", produces = "application/json")
+    public int inertData(@RequestBody School school) {
 
-        return  schoolService.insertSchoolData(school);
+        return schoolService.insertSchoolData(school);
     }
 
-    @PostMapping(value="/login",consumes = "application/json", produces = "application/json")
-    public String loginData(@RequestBody SchoolLogin schoolLogin){
+    @PostMapping(value = "/login", consumes = "application/json", produces = "application/json")
+    public String loginData(@RequestBody SchoolLogin schoolLogin) {
 
-        return  schoolService.loginData(schoolLogin);
+        return schoolService.loginData(schoolLogin);
     }
 
 }

@@ -13,7 +13,6 @@ public class SendEmailServiceImp implements SendEmailService {
     private final JavaMailSender javaMailSender;
 
 
-
     public SendEmailServiceImp(JavaMailSender javaMailSender) {
         this.javaMailSender = javaMailSender;
     }
@@ -26,7 +25,7 @@ public class SendEmailServiceImp implements SendEmailService {
 //        m.setMessage("welcome to pathshala");
 //        m.setSubject("Welcome mail");
 //        m.setRecipient("akashaupb@gmail.com");
-        msg.setTo(m.getRecipient(),m.getRecipient());
+        msg.setTo(m.getRecipient(), m.getRecipient());
 
         msg.setSubject(m.getSubject());
         msg.setText(m.getMessage());

@@ -6,11 +6,12 @@ import com.ps.pathshala.model.School;
 import com.ps.pathshala.model.SchoolLogin;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Component;
 
 @Component
-public class SchoolServiceImp implements SchoolService{
+public class SchoolServiceImp implements SchoolService {
 
     @Autowired
     private JdbcTemplate jdbcTemplate;
@@ -29,8 +30,8 @@ public class SchoolServiceImp implements SchoolService{
     @Value("${db.password.validate}")
     private String passwordValidate;
 
-    School getSchoolData(School school){
-        School sc=new School();
+    School getSchoolData(School school) {
+        School sc = new School();
         sc.setId(school.getId());
         sc.setSchool_name(school.getSchool_name());
         sc.setAddress(school.getAddress());
@@ -43,37 +44,40 @@ public class SchoolServiceImp implements SchoolService{
     @Override
     public int insertSchoolData(School school) {
 
-        int result = jdbcTemplate.update(insertSql,school.getId(),school.getSchool_name(),school.getAddress(),school.getEmail_id(),school.getPassword());
+        int result = jdbcTemplate.update(insertSql, school.getId(), school.getSchool_name(), school.getAddress(), school.getEmail_id(), school.getPassword());
 
-       if(result > 0){
+        if (result > 0) {
 
-           StringBuffer msg = new StringBuffer();
-           msg.append("Hi "+school.getSchool_name());
-           msg.append("\n\nWelcome to Pathshala");
-           mail m = new mail();
-           m.setRecipient(school.getEmail_id());
-           m.setSubject("Welcome Mail");
-           m.setMessage(msg.toString());
-           sendEmailService.sendWelcomeEmail(m);
-           System.out.print("Mail send");
-       }
+            StringBuffer msg = new StringBuffer();
+            msg.append("Hi " + school.getSchool_name());
+            msg.append("\n\nWelcome to Pathshala");
+            mail m = new mail();
+            m.setRecipient(school.getEmail_id());
+            m.setSubject("Welcome Mail");
+            m.setMessage(msg.toString());
+            sendEmailService.sendWelcomeEmail(m);
+            System.out.print("Mail send");
+        }
         return result;
     }
-
 
 
     @Override
     public School getSchoolData(int id) {
 
-       School school = jdbcTemplate.queryForObject(selectSql,new SchoolRowMapper(),2);
-        return school;
+        try {
+            School school = jdbcTemplate.queryForObject(selectSql, new SchoolRowMapper(), id);
+            return school;
+        }catch (EmptyResultDataAccessException e){
+            return null;
+        }
     }
 
     @Override
     public String loginData(SchoolLogin schoolLogin) {
-        if ( jdbcTemplate.queryForObject(passwordValidate,Integer.class,schoolLogin.getSchool_name(),schoolLogin.getPassword()) == 1){
+        if (jdbcTemplate.queryForObject(passwordValidate, Integer.class, schoolLogin.getSchool_name(), schoolLogin.getPassword()) == 1) {
             return "Login successful";
-        }else return "Wrong password";
+        } else return "Wrong password";
 
     }
 }
