@@ -3,6 +3,7 @@ package com.ps.pathshala.controller;
 
 import com.ps.pathshala.email.mail;
 import com.ps.pathshala.model.School;
+import com.ps.pathshala.model.SchoolLogin;
 import com.ps.pathshala.service.SchoolService;
 import com.ps.pathshala.service.SendEmailService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,7 +16,7 @@ import java.io.IOException;
 
 @RestController
 @ComponentScan(basePackages = {"com.ps.pathshala.service.SchoolService"})
-@RequestMapping("/login")
+@RequestMapping("/main")
 public class LoginController {
 
     @Autowired
@@ -38,11 +39,17 @@ public class LoginController {
         return "Mail send";
     }
 
-    @PostMapping(value="/insert",consumes = "application/json", produces = "application/json")
+
+    @PostMapping(value="/signup",consumes = "application/json", produces = "application/json")
     public int inertData(@RequestBody School school){
 
         return  schoolService.insertSchoolData(school);
     }
 
+    @PostMapping(value="/login",consumes = "application/json", produces = "application/json")
+    public String loginData(@RequestBody SchoolLogin schoolLogin){
+
+        return  schoolService.loginData(schoolLogin);
+    }
 
 }

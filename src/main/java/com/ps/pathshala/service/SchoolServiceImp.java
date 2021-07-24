@@ -3,6 +3,7 @@ package com.ps.pathshala.service;
 import com.ps.pathshala.email.mail;
 import com.ps.pathshala.mapper.SchoolRowMapper;
 import com.ps.pathshala.model.School;
+import com.ps.pathshala.model.SchoolLogin;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -63,5 +64,13 @@ public class SchoolServiceImp implements SchoolService{
 
        School school = jdbcTemplate.queryForObject(selectSql,new SchoolRowMapper(),2);
         return school;
+    }
+
+    @Override
+    public String loginData(SchoolLogin schoolLogin) {
+        if ( jdbcTemplate.queryForObject("select count(*) from SCHOOL_MAP where school_name = ? and password = ? ",Integer.class,schoolLogin.getSchool_name(),schoolLogin.getPassword()) == 1){
+            return "Login successful";
+        }else return "Wrong password";
+
     }
 }
