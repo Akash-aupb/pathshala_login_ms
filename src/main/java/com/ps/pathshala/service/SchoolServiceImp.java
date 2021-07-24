@@ -26,6 +26,9 @@ public class SchoolServiceImp implements SchoolService{
     @Value("${db.insert}")
     private String insertSql;
 
+    @Value("${db.password.validate}")
+    private String passwordValidate;
+
     School getSchoolData(School school){
         School sc=new School();
         sc.setId(school.getId());
@@ -68,7 +71,7 @@ public class SchoolServiceImp implements SchoolService{
 
     @Override
     public String loginData(SchoolLogin schoolLogin) {
-        if ( jdbcTemplate.queryForObject("select count(*) from SCHOOL_MAP where school_name = ? and password = ? ",Integer.class,schoolLogin.getSchool_name(),schoolLogin.getPassword()) == 1){
+        if ( jdbcTemplate.queryForObject(passwordValidate,Integer.class,schoolLogin.getSchool_name(),schoolLogin.getPassword()) == 1){
             return "Login successful";
         }else return "Wrong password";
 
