@@ -19,15 +19,13 @@ public class SendEmailServiceImp implements SendEmailService {
     }
 
     @Override
-    public void sendWelcomeEmail() {
+    public void sendWelcomeEmail(mail m) {
 
         SimpleMailMessage msg = new SimpleMailMessage();
 
-        mail m = new mail();
-
-        m.setMessage("welcome to pathshala");
-        m.setSubject("Welcome mail");
-        m.setRecipient("akashaupb@gmail.com");
+//        m.setMessage("welcome to pathshala");
+//        m.setSubject("Welcome mail");
+//        m.setRecipient("akashaupb@gmail.com");
         msg.setTo(m.getRecipient(),m.getRecipient());
 
         msg.setSubject(m.getSubject());

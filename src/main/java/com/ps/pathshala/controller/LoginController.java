@@ -34,13 +34,14 @@ public class LoginController {
 
     @GetMapping("/sendmail")
     public String mail() throws IOException, MessagingException {
-        sendEmailService.sendWelcomeEmail();
+        //sendEmailService.sendWelcomeEmail();
         return "Mail send";
     }
 
     @PostMapping(value="/insert",consumes = "application/json", produces = "application/json")
     public int inertData(@RequestBody School school){
-       return  schoolService.insertSchoolData(school);
+
+        return  schoolService.insertSchoolData(school);
     }
 
 

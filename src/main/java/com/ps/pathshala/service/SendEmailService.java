@@ -9,7 +9,7 @@ import javax.mail.MessagingException;
 @Service
 public interface SendEmailService {
 
-    void sendWelcomeEmail();
+    void sendWelcomeEmail(mail m);
 
     void sendMailWithAttachments(mail mail) throws MessagingException;
 }

@@ -1,5 +1,6 @@
 package com.ps.pathshala.service;
 
+import com.ps.pathshala.email.mail;
 import com.ps.pathshala.mapper.SchoolRowMapper;
 import com.ps.pathshala.model.School;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,6 +13,11 @@ public class SchoolServiceImp implements SchoolService{
 
     @Autowired
     private JdbcTemplate jdbcTemplate;
+
+
+    @Autowired
+    SendEmailService sendEmailService;
+
 
     @Value("${db.select}")
     private String selectSql;
@@ -34,6 +40,19 @@ public class SchoolServiceImp implements SchoolService{
     public int insertSchoolData(School school) {
 
         int result = jdbcTemplate.update(insertSql,school.getId(),school.getSchool_name(),school.getAddress(),school.getEmail_id(),school.getPassword());
+
+       if(result > 0){
+
+           StringBuffer msg = new StringBuffer();
+           msg.append("Hi "+school.getSchool_name());
+           msg.append("\n\nWelcome to Pathshala");
+           mail m = new mail();
+           m.setRecipient(school.getEmail_id());
+           m.setSubject("Welcome Mail");
+           m.setMessage(msg.toString());
+           sendEmailService.sendWelcomeEmail(m);
+           System.out.print("Mail send");
+       }
         return result;
     }
 
